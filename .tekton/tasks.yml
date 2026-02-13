@@ -1,0 +1,20 @@
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: cleanup
+spec:
+  steps:
+    - name: cleanup
+      image: alpine
+      command: ["rm", "-rf", "$(workspaces.source.path)/*"]
+---
+apiVersion: tekton.dev/v1beta1
+kind: Task
+metadata:
+  name: nose
+spec:
+  steps:
+    - name: nose-test
+      image: python:3.9-slim
+      command: ["nosetests"]
+      args: ["-v", "--with-spec"]
